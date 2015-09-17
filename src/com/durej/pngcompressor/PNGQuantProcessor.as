@@ -40,7 +40,7 @@ package com.durej.pngcompressor
 		}
 		
 		
-		public function compressPNGFile(pngFile : File, onComplete : Function) : void
+		public function compressPNGFile(pngFile : File, minQuality:int, maxQuality:int, speed:int, onComplete : Function) : void
 		{
 			this.onComplete = onComplete;
 
@@ -51,7 +51,8 @@ package com.durej.pngcompressor
 			processArgs = new Vector.<String>();
 
 			processArgs.push("--verbose");
-			processArgs.push("--quality=0-90");
+			processArgs.push("--quality="+minQuality+"-"+maxQuality);
+			processArgs.push("--speed="+speed);
 			processArgs.push("--force");
 			processArgs.push(pngFile.nativePath);
 
@@ -81,15 +82,18 @@ package com.durej.pngcompressor
 		
 		protected function onExit(event : NativeProcessExitEvent) : void 
 		{
-			//log("png compressed done: "+event.exitCode,false);
-			if(onComplete) onComplete();
+			if (event.exitCode == 99)
+			{
+				log("WARNING : \n\nConversion resulted in quality below the min quality. Please decrease the min quality value and try again.");
+			}
+			if(onComplete) onComplete(event.exitCode == 0);
 		}
 		
 		
 		private function onProcessOutput(event : ProgressEvent) : void
 		{
 			var result:String = process.standardOutput.readUTFBytes(process.standardOutput.bytesAvailable);
-			 log("onProcessOutput: "+result);
+			 log(result);
 		}
 		
 		

@@ -1,7 +1,5 @@
 package com.durej.pngcompressor
 {
-	import flash.globalization.LocaleID;
-	import flash.globalization.NumberFormatter;
 	import com.bwhiting.utilities.events.addListener;
 
 	import flash.desktop.ClipboardFormats;
@@ -19,16 +17,15 @@ package com.durej.pngcompressor
 	import flash.events.NativeDragEvent;
 	import flash.filesystem.File;
 	import flash.text.TextField;
-	import flash.utils.ByteArray;
 
-	[SWF(backgroundColor="#FFFFFF", frameRate="31", width="320", height="650")]
+	[SWF(backgroundColor="#FFFFFF", frameRate="31", width="640", height="700")]
 	public class PNGCompressor extends Sprite
 	{
 		public var log_txt 					: TextField;
 		public var minBtnGFX 				: Sprite;
 		public var closeBtnGFX 				: Sprite;
 		public var statusGFX 				: StatusGFX;
-		public var ipaLabel_txt 			: TextField;
+		public var dragPrompt_txt 			: TextField;
 		public var originalFilesize_txt		: TextField;
 		public var compressedFilesize_txt	: TextField;
 		public var headerGFX 				: Sprite;
@@ -40,6 +37,11 @@ package com.durej.pngcompressor
 		private var pngQuantProcessor 		: PNGQuantProcessor;
 		private var origSize				: int;
 		private var finalSize				: int;
+		public var minQuality_txt 			: TextField;
+		public var maxQuality_txt 			: TextField;
+		public var speed_txt 				: TextField;
+		public var validGFX 				: Sprite;
+		public var invalidGFX 				: Sprite;
 
 		public function PNGCompressor()
 		{
@@ -55,8 +57,8 @@ package com.durej.pngcompressor
 
 			// create window
 			var win : NativeWindow = new NativeWindow(options);
-			win.width = 320;
-			win.height = 650;
+			win.width = 640;
+			win.height = 700;
 			win.activate();
 			win.stage.addChild(this);
 
@@ -69,18 +71,25 @@ package com.durej.pngcompressor
 			bgGFX 					= gfx.bgGFX;
 			statusGFX 				= gfx.statusGFX;
 			statusBusyIndicatorAnim = statusGFX.statusBusyIndicatorAnim;
-			ipaLabel_txt 			= gfx.ipaLabel_txt;
+			dragPrompt_txt 			= gfx.dragPrompt_txt;
 			originalFilesize_txt	= gfx.originalFilesize_txt;
 			compressedFilesize_txt	= gfx.compressedFilesize_txt;
 			log_txt					= gfx.log_txt;
 			ratio_txt				= gfx.ratio_txt;
+			minQuality_txt			= gfx.minQuality_txt;
+			maxQuality_txt			= gfx.maxQuality_txt;
+			speed_txt				= gfx.speed_txt;
+			validGFX				= gfx.bgGFX.validGFX;
+			invalidGFX				= gfx.bgGFX.invalidGFX;
+			
+			
 			this.addChild(gfx);
 
 			// init dragging
 			bgGFX.addEventListener(NativeDragEvent.NATIVE_DRAG_ENTER, onFileDragEnter);
+			bgGFX.addEventListener(NativeDragEvent.NATIVE_DRAG_EXIT, onFileDragExit);
 			bgGFX.mouseChildren = false;
-			ipaLabel_txt.mouseEnabled = false;
-
+			dragPrompt_txt.mouseEnabled = false;
 			log_txt.mouseEnabled = false;
 
 			// listeners
@@ -93,10 +102,19 @@ package com.durej.pngcompressor
 			
 			pngQuantProcessor 		= PNGQuantProcessor.getInstance();
 			pngQuantProcessor.log 	= log;
-
+			
+			clearDragBG();
 		}
 
+		private function onFileDragExit(event : NativeDragEvent) : void
+		{
+			clearDragBG();
+		}
 
+		private function clearDragBG() : void
+		{
+			validGFX.visible = invalidGFX.visible = false;
+		}
 
 		private function onFileDragEnter(event : NativeDragEvent) : void
 		{
@@ -109,6 +127,13 @@ package com.durej.pngcompressor
 				{
 					NativeDragManager.acceptDragDrop(bgGFX);
 					bgGFX.addEventListener(NativeDragEvent.NATIVE_DRAG_DROP, onDragDrop);
+					invalidGFX.visible = false;
+					validGFX.visible = true;
+				}
+				else
+				{
+					invalidGFX.visible = true;
+					validGFX.visible = false;
 				}
 			}
 		}
@@ -121,6 +146,7 @@ package com.durej.pngcompressor
 			if (file.type == ".png" || file.type == ".PNG")
 			{
 				pngFile = file;
+				clearDragBG();
 				compressAppFile();
 			}
 		}
@@ -137,14 +163,45 @@ package com.durej.pngcompressor
 			log_txt.text = "";
 			statusBusyIndicatorAnim.play();
 			statusGFX.visible 			= true;
-			ipaLabel_txt.visible 		= false;
+			dragPrompt_txt.visible 		= false;
 			origSize					= pngFile.size;
 			originalFilesize_txt.text = readableBytes(origSize);
-			log("Compressing "+pngFile.name);
-			pngQuantProcessor.compressPNGFile(pngFile,onCompressionComplete);
+			log("Compressing "+pngFile.name+"\n");
+			
+			//min quality
+			var minQuality:int = parseInt(minQuality_txt.text);
+			if (!minQuality)
+			{
+				minQuality = 0;
+			}
+			if (minQuality < 0) minQuality = 0;
+			if (minQuality > 100) minQuality = 100;
+			
+			//max quality
+			var maxQuality:int = parseInt(maxQuality_txt.text);
+			if (!maxQuality)
+			{
+				maxQuality = 95;
+			}
+			if (maxQuality < 5) maxQuality = 5;
+			if (maxQuality > 100) maxQuality = 100;
+			
+			//speed
+			var speed:int = parseInt(speed_txt.text);
+			if (speed_txt.text == "0") speed = 1; 
+			if (!speed)
+			{
+				speed = 3;
+			}
+			if (speed < 1) speed = 1;
+			if (speed > 10) speed = 10;
+			
+			log("\nUsing min quality: "+minQuality+", max quality: "+maxQuality+", speed:"+speed+"\n\n");
+			
+			pngQuantProcessor.compressPNGFile(pngFile,minQuality, maxQuality,speed, onCompressionComplete);
 		}
 
-		private function onCompressionComplete() : void
+		private function onCompressionComplete( sucess : Boolean = true) : void
 		{
 			statusBusyIndicatorAnim.stop();
 			
@@ -153,7 +210,10 @@ package com.durej.pngcompressor
 			compressedFilesize_txt.text = readableBytes(finalSize);
 			ratio_txt.text = (int(finalSize/origSize * 100)).toString()+"%";
 			
-			log("Compression done sucessfuly..\nYou can drag'n'drop a new file now.");
+			if (sucess)
+			{
+				log("Png file converted successfuly\n\nYou can drag'n'drop a new file now.");
+			}
 		}
 
 		private function log(log_str : String) : void
