@@ -1,5 +1,6 @@
 package com.durej.pngcompressor
 {
+	import flash.text.TextFieldAutoSize;
 	import com.bwhiting.utilities.events.addListener;
 
 	import flash.desktop.ClipboardFormats;
@@ -81,9 +82,16 @@ package com.durej.pngcompressor
 			speed_txt				= gfx.speed_txt;
 			validGFX				= gfx.bgGFX.validGFX;
 			invalidGFX				= gfx.bgGFX.invalidGFX;
-			
-			
+
 			this.addChild(gfx);
+			
+			//init default values
+			minQuality_txt.text = "5";
+			maxQuality_txt.text = "95";
+			speed_txt.text 		= "1";
+			dragPrompt_txt.autoSize = TextFieldAutoSize.CENTER;
+			dragPrompt_txt.text = "DRAG YOUR PNG FILE HERE\n\n!!!WARNING!!!\n\nDRAGGED FILE WILL BE OVERWRITTEN";
+			dragPrompt_txt.y = int((gfx.height - dragPrompt_txt.height)*.6);
 
 			// init dragging
 			bgGFX.addEventListener(NativeDragEvent.NATIVE_DRAG_ENTER, onFileDragEnter);
