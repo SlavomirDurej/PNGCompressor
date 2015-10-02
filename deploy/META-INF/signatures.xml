@@ -8,14 +8,14 @@
           <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
         </Transforms>
         <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
-        <DigestValue>SPHWR4rimd996T8iHvuTgfg9fCj25l/5TXrGJ7pWDp0=</DigestValue>
+        <DigestValue>AC6Jm4vUPmjMvmOimCP35DAA4xKwyUFbPGGmAOh7EY4=</DigestValue>
       </Reference>
     </SignedInfo>
-    <SignatureValue Id="PackageSignatureValue">adCaj0e3Wq/L0SItDMP0GosSkkHNDoT0JkeIeQRyEdrCAgvEZu7NZxYKjwWYUCclv6Up4SIRHSz/
-k2AXW0OKlUn27IO0BOdQ4uPA0SiWAD1OOCyA2R/56jxjWDedsGKYHh4jIAQb/LKGT3xjWXfGy8f/
-+19Gma2fiID+78PMOJ8M4Q0/z5l4L+0kfmYOIgeJKyyOnoCv+Ap6oC5/qtdW1cbvz9/md0ejXZTO
-tEZ7OUDGeyYOovPc0A25SWGrMZ5ZtoXrejcqFBEdgifeilIkyc+b7vv5yYE/KzToSVgpJTCSnm0o
-i27u0ngabm+y+uPMfkCX2EaH+eCRfLXcZ4CmIQ==</SignatureValue>
+    <SignatureValue Id="PackageSignatureValue">MR598lNKbon17esJG6QKlcvN3Gf9YOaYqtJjFfryCzBxPdTdNI+uHbz5jl/PThn7xOnNhcICNuuV
+k2UkZJdkkGATtfbd8XiD33Ca8UZSC/MU75zCpb9OQfDwJGfcHCHOyM1ACulXVtRrzXULLHH/P9dX
+GwHYyQPdmklL60xY2T93Vi1IvYK2QBbaogWbe9fSnJrTBGUvs+pbUSMJxAccJM3TnaqCskvh0y2M
+5y6rORZmtCZgW63oZn8aynRNWA+T9tFl21kctTFDPNIS6amm6GtwI4zJHO5GFQPbQqod8IFQdEmf
+NFdfpAhBmqSvBc/4+B6GeV0VQDReJZf3frh9vQ==</SignatureValue>
     <KeyInfo>
       <X509Data>
         <X509Certificate>MIIC4zCCAcugAwIBAgIaNDMyYTk3MjQ6MTRmZDY5NWY3MzU6LTgwMDAwDQYJKoZIhvcNAQEFBQAw
@@ -36,7 +36,7 @@ hPI=</X509Certificate>
     </KeyInfo>
     <Object>
       <Manifest Id="PackageContents">
-        <Reference URI="mimetype"><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod><DigestValue>0/oCb84THKMagtI0Dy0KogEu92TegdesqRr/clXct1c=</DigestValue></Reference><Reference URI="META-INF/AIR/application.xml"><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod><DigestValue>sfYKAeAIBkWW5n9wTXWTNIU3jaz/DKA5RYTHKQ0v6ps=</DigestValue></Reference><Reference URI="PNGCompressor.swf"><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod><DigestValue>4nQxBqTJhhQY0Rm9YkTYVwytwVms5qdgfryv2bNBJi8=</DigestValue></Reference><Reference URI="pngquant.exe"><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod><DigestValue>32m25RX1b5go8f7t4dFR+p/8A7qMjqZboYvoQhv0OUA=</DigestValue></Reference>
+        <Reference URI="mimetype"><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod><DigestValue>0/oCb84THKMagtI0Dy0KogEu92TegdesqRr/clXct1c=</DigestValue></Reference><Reference URI="META-INF/AIR/application.xml"><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod><DigestValue>sfYKAeAIBkWW5n9wTXWTNIU3jaz/DKA5RYTHKQ0v6ps=</DigestValue></Reference><Reference URI="PNGCompressor.swf"><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod><DigestValue>zAlovD+Zwj0FnYqpYSX2ke54ykbR/5QgH4mNAYwS2Ko=</DigestValue></Reference><Reference URI="pngquant.exe"><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod><DigestValue>32m25RX1b5go8f7t4dFR+p/8A7qMjqZboYvoQhv0OUA=</DigestValue></Reference>
       </Manifest>
     </Object>
     <Object xmlns:xades="http://uri.etsi.org/01903/v1.1.1#" > 
@@ -50,29 +50,29 @@ hPI=</X509Certificate>
             </Transforms>
             <xades:EncapsulatedTimeStamp>
               MIIOFgYJKoZIhvcNAQcCoIIOBzCCDgMCAQMxCzAJBgUrDgMCGgUAMIG4BgsqhkiG9w0BCRABBKCB
-qASBpTCBogIBAQYCKQIwITAJBgUrDgMCGgUABBTSk1qa0cao8VD8+6yf7Eh9a25nPAIEISAUAhgP
-MjAxNTA5MTcxMjU5MTNaMAMCATygWqRYMFYxCzAJBgNVBAYTAlVTMRUwEwYDVQQKEwxHZW9UcnVz
-dCBJbmMxMDAuBgNVBAMTJ0dlb1RydXN0IDIwNDgtYml0IFRpbWVzdGFtcGluZyBTaWduZXIgMqCC
-CwgwggRtMIIDVaADAgECAhAtToZQhb7gDhNyKLPQsTLpMA0GCSqGSIb3DQEBBQUAMF4xCzAJBgNV
+qASBpTCBogIBAQYCKQIwITAJBgUrDgMCGgUABBSp5qgDPYm4m63eb36npL3MJi+eKgIELQ6uqxgP
+MjAxNTEwMDIxNDE1NTNaMAMCATygWqRYMFYxCzAJBgNVBAYTAlVTMRUwEwYDVQQKEwxHZW9UcnVz
+dCBJbmMxMDAuBgNVBAMTJ0dlb1RydXN0IDIwNDgtYml0IFRpbWVzdGFtcGluZyBTaWduZXIgM6CC
+CwgwggRtMIIDVaADAgECAhBVRcoCJGGQ2XnutA25/7wYMA0GCSqGSIb3DQEBBQUAMF4xCzAJBgNV
 BAYTAlVTMR0wGwYDVQQKExRTeW1hbnRlYyBDb3Jwb3JhdGlvbjEwMC4GA1UEAxMnU3ltYW50ZWMg
 VGltZSBTdGFtcGluZyBTZXJ2aWNlcyBDQSAtIEcyMB4XDTE1MDYxMTAwMDAwMFoXDTIwMTIyOTIz
 NTk1OVowVjELMAkGA1UEBhMCVVMxFTATBgNVBAoTDEdlb1RydXN0IEluYzEwMC4GA1UEAxMnR2Vv
-VHJ1c3QgMjA0OC1iaXQgVGltZXN0YW1waW5nIFNpZ25lciAyMIIBIjANBgkqhkiG9w0BAQEFAAOC
-AQ8AMIIBCgKCAQEArtfONuK8PsPUhEJ6TNQ5pIBRKPBIHzt6wJqQm3+RNTndxQH1hwm8Mekri2CX
-WX0kQPL+8C1mlX3cqYhciZPlde1CbGsnKzD+lRl+BXqW5pF1QcKC12zshBnfIYHWtpw/I+nBSDJ8
-JvLLuIhB38JhSyF5X6FwgeMS9pGI0q3wbzGYrthpTSirEY8d2KVJ3U2HGHbSFTXMCIWmdFxdtVAq
-R+aqAC1zUH/INrUZuyNiFkwgBCFS9/MYFoM4aDQVPl0LkJ6hCaAGmw0l3KJGI+I9XYaNdkMPM3Gn
-NTHZorWPIG31GCZW1u4NKekmJEgaBd2LZXt0xET63cKb05g7XZL+5QIDAQABo4IBLTCCASkwcwYI
+VHJ1c3QgMjA0OC1iaXQgVGltZXN0YW1waW5nIFNpZ25lciAzMIIBIjANBgkqhkiG9w0BAQEFAAOC
+AQ8AMIIBCgKCAQEAxL+oD9FYlWLUPD+AV8IegIe0dse/5BpDELCzC68jtQKMuWNdOGceKkzEgeTB
+A4As44SadbGTaCchXS9UQOZ2cPwkMoux4djpv6PfC9Zw7BvSfU69LaaoetPWtZuxRAfgYzw0DvUy
+KsUKYeNL3vKN4DMvEXuuWDW+TpCOwbjx/RUXJNfTw1trUfDI3kg/ESvJ8QuPBGhU2ZAt3Q/KIudE
+g8ZK9YPLLnPi0k9VB+KYscHKqWJFP15BO9/VDzXfjIDGHCyNENU1NpQ502WK0KwzELU5y+WmmNwS
+UshNcK7v2zox52IAxSNxtrU5RFUUeUvnH6U5G07Td92bgP7o+KbJsQIDAQABo4IBLTCCASkwcwYI
 KwYBBQUHAQEEZzBlMCoGCCsGAQUFBzABhh5odHRwOi8vdHMtb2NzcC53cy5zeW1hbnRlYy5jb20w
 NwYIKwYBBQUHMAKGK2h0dHA6Ly90cy1haWEud3Muc3ltYW50ZWMuY29tL3Rzcy1jYS1nMi5jZXIw
 DAYDVR0TAQH/BAIwADA8BgNVHR8ENTAzMDGgL6AthitodHRwOi8vdHMtY3JsLndzLnN5bWFudGVj
 LmNvbS90c3MtY2EtZzIuY3JsMBYGA1UdJQEB/wQMMAoGCCsGAQUFBwMIMA4GA1UdDwEB/wQEAwIH
-gDAdBgNVHQ4EFgQUf6CEBiEDgEz/9hiRajgYCR3WxLUwHwYDVR0jBBgwFoAUX5r1blzMzHSa1N19
-7z/b7EyALt0wDQYJKoZIhvcNAQEFBQADggEBADPNaJAvWmsjAYaV2hRtcobzYc3PNh0IgscJYfug
-8TboTUFbLQvV98+6j2HcmDhnedZdazBQvtvGlG4MMr6FboxsVXBghTb73O7F7PE4ugp+WpKQp6FA
-mmEPsZTWhqRkeGCaMKkNCvWGkxVqxmpPqZx3QBvbGgn+M6PiA3wMv0ALKhqNc8Wi4bq6ZC83qXgj
-IzhXo72u1e/Eg+sckktYyBuTRYXvTkIibgTOirDOCvPhKriPhhPt03chuYcDIFm8Yvui6cFevRTr
-4LC5DD6ynwCRpPjhQCu5CWqV12Z8JmLQSpy9BGs5YycwI2BA6Ra/3Rf6o8HiTKQn3ruD1EznN/ow
+gDAdBgNVHQ4EFgQUX7phh1B30O/JQOtgILN1hnNG2cIwHwYDVR0jBBgwFoAUX5r1blzMzHSa1N19
+7z/b7EyALt0wDQYJKoZIhvcNAQEFBQADggEBABvBZRgjVelI0yUv8ZbgxhZdy++S2qUKG2gUHgwi
+Xiv2hq3hQOkgY/iC2rX+q/jVvAkx8JjpgTF0P5OtjJhpThUd37BTQSkuasSJDam5SyD9ISrGuHrh
+Bvz8hhDrk0EXvqAlUG8F/JyRqtvESANkfMLKsokFv3iP+S/OSeJexNwCkA3AF03yJ3ncsjJzaxHZ
+gmzSpkxsdSLoQ9dRIB4CVNYTgYmTQyMR2rtT9nfidgBgyj1CUSAfbEuOvjgMQm90XvchR/vQzZs3
+XsgRtfNQUmOpbdspHmrpaBe1xK6I0NBHB1J5ZgL14qy+fSyX3h3X/PJMwVEYVfGjJ1TpAaK4JOcw
 ggKhMIICCqADAgECAgEAMA0GCSqGSIb3DQEBBAUAMIGLMQswCQYDVQQGEwJaQTEVMBMGA1UECBMM
 V2VzdGVybiBDYXBlMRQwEgYDVQQHEwtEdXJiYW52aWxsZTEPMA0GA1UEChMGVGhhd3RlMR0wGwYD
 VQQLExRUaGF3dGUgQ2VydGlmaWNhdGlvbjEfMB0GA1UEAxMWVGhhd3RlIFRpbWVzdGFtcGluZyBD
@@ -104,15 +104,15 @@ MA0GCSqGSIb3DQEBBQUAA4GBAAMJm495739ZMKrvaLX64wkdu0+CBl03X6ZSnxaN6hySCURu9W3r
 WHww6PlpjSNzCxJvR6muORH4KrGbsBrDjutZlgCtzgxNstAxpghcKnr84nodV0yoZRjpeUBiJZZu
 x8c3aoMhCI5B6t3ZVz8dd0mHKhYGXqY4aiISo1EZg362MYICKDCCAiQCAQEwcjBeMQswCQYDVQQG
 EwJVUzEdMBsGA1UEChMUU3ltYW50ZWMgQ29ycG9yYXRpb24xMDAuBgNVBAMTJ1N5bWFudGVjIFRp
-bWUgU3RhbXBpbmcgU2VydmljZXMgQ0EgLSBHMgIQLU6GUIW+4A4Tciiz0LEy6TAJBgUrDgMCGgUA
-oIGMMBoGCSqGSIb3DQEJAzENBgsqhkiG9w0BCRABBDAcBgkqhkiG9w0BCQUxDxcNMTUwOTE3MTI1
-OTEzWjAjBgkqhkiG9w0BCQQxFgQUHxUSbTxxmtJXAxBCmxpiUrVYReQwKwYLKoZIhvcNAQkQAgwx
-HDAaMBgwFgQUzjEYtM1lDIPZFDzCShkbQeim9QAwDQYJKoZIhvcNAQEBBQAEggEASMxU1tslC6jm
-aeufAqpJs7oYH7oMQdNAo+Z9g4xYt45QxpZ2RirqgXqjEtdtiWTg3dVkPFuH8qL6Qa7VdFb9gl6q
-tNs/YE1QJ3LiTBTF21CqlngH1hSmUlg1bhX1WebFasS72nmHeDf/mDOz26833H+rI3Lz/oq/OyKU
-TAU88FSVW7pn+kp9x+cY58b8e2+9pRbBekrQ8yHwxx6F96Gha6FHoztaZbvR8w0fY2x9+SSuAA3W
-xCdFzvp4E/MQJKX/tAPchsLrbYJZgWiXZh3f7Z2Pm54Z9qEw8Ha05BJyHwGinIxrXV3PdmKrAbj0
-/CxHGhQ7k+fA+Smnf4p7xrArNQ==
+bWUgU3RhbXBpbmcgU2VydmljZXMgQ0EgLSBHMgIQVUXKAiRhkNl57rQNuf+8GDAJBgUrDgMCGgUA
+oIGMMBoGCSqGSIb3DQEJAzENBgsqhkiG9w0BCRABBDAcBgkqhkiG9w0BCQUxDxcNMTUxMDAyMTQx
+NTUzWjAjBgkqhkiG9w0BCQQxFgQURRr6cT13o0XCHibIkYD68MNaTQ0wKwYLKoZIhvcNAQkQAgwx
+HDAaMBgwFgQUkSEJPJWSNujcWD4UasZZQx8KnOYwDQYJKoZIhvcNAQEBBQAEggEADpot16w1F1d9
+EeQ2g7ZUQicTxbacAVb5jW4+MoUlj5DLk/YVS1I0//M1QEhzXoib/9Qh/eCjtNkOcxoRZI5SLsi7
+zosPgPlUkSX+MQLFbQW9tSEDy0jsAC5Gdg6pZTH0ZYBk7IIvKM3VP1MNdgVDlykkZ2HwG2Ff1HIN
+uY4uxEW68V8aB/7UBBooBzAOhBtXgyWbEIRz8G/GEuH8gZ2M83rXzlnegNLcUoFm6//GCRQCq/an
+K2N1wnT8PmmaFSWkx+CRPQmrfw/cN1d3tzzhHEpOquBVKEpIGSP3JmBaAC5fJvsZC7RC/KKgZ5WE
+jULIUyYvSAqCi7rk9XxzQXhsxg==
             </xades:EncapsulatedTimeStamp>     	
      	  </xades:HashDataInfo>     	
         </xades:SignatureTimeStamp>

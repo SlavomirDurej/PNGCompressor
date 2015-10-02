@@ -22,6 +22,7 @@ package com.durej.pngcompressor
 	[SWF(backgroundColor="#FFFFFF", frameRate="31", width="640", height="700")]
 	public class PNGCompressor extends Sprite
 	{
+		public static var eventSprite		: Sprite;
 		public var log_txt 					: TextField;
 		public var minBtnGFX 				: Sprite;
 		public var closeBtnGFX 				: Sprite;
@@ -43,6 +44,11 @@ package com.durej.pngcompressor
 		public var speed_txt 				: TextField;
 		public var validGFX 				: Sprite;
 		public var invalidGFX 				: Sprite;
+		private var jobQueue				: Array;
+		private var jobIDX : int = 0;
+		private var totalJobs : int;
+		private var origSize_str : String;
+
 
 		public function PNGCompressor()
 		{
@@ -66,6 +72,8 @@ package com.durej.pngcompressor
 			// stage setup
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
+			
+			eventSprite				= new Sprite();
 
 			// init graphics
 			gfx 					= new MainGFX();
@@ -90,15 +98,15 @@ package com.durej.pngcompressor
 			maxQuality_txt.text = "95";
 			speed_txt.text 		= "1";
 			dragPrompt_txt.autoSize = TextFieldAutoSize.CENTER;
-			dragPrompt_txt.text = "DRAG YOUR PNG FILE HERE\n\n!!!WARNING!!!\n\nDRAGGED FILE WILL BE OVERWRITTEN";
+			dragPrompt_txt.text = "DRAG YOUR PNG FILE(S) OR DIRECTORY HERE\n\n!!!WARNING!!!\n\nDRAGGED FILE(S) WILL BE OVERWRITTEN";
 			dragPrompt_txt.y = int((gfx.height - dragPrompt_txt.height)*.6);
 
 			// init dragging
-			bgGFX.addEventListener(NativeDragEvent.NATIVE_DRAG_ENTER, onFileDragEnter);
-			bgGFX.addEventListener(NativeDragEvent.NATIVE_DRAG_EXIT, onFileDragExit);
-			bgGFX.mouseChildren = false;
+			this.addEventListener(NativeDragEvent.NATIVE_DRAG_ENTER, onFileDragEnter);
+			this.addEventListener(NativeDragEvent.NATIVE_DRAG_EXIT, onFileDragExit);
+			//this.mouseChildren = false;
 			dragPrompt_txt.mouseEnabled = false;
-			log_txt.mouseEnabled = false;
+			
 
 			// listeners
 			addListener(win, Event.CLOSE, NativeApplication.nativeApplication.exit, 0);
@@ -114,67 +122,88 @@ package com.durej.pngcompressor
 			clearDragBG();
 		}
 
-		private function onFileDragExit(event : NativeDragEvent) : void
+
+
+
+		private function startJob(files_arr : Array) : void
 		{
+			log_txt.text = "";
 			clearDragBG();
-		}
-
-		private function clearDragBG() : void
-		{
-			validGFX.visible = invalidGFX.visible = false;
-		}
-
-		private function onFileDragEnter(event : NativeDragEvent) : void
-		{
-			if (event.clipboard.hasFormat(ClipboardFormats.FILE_LIST_FORMAT))
+			jobQueue = [];
+			jobIDX	= 0;
+			
+			if (files_arr.length == 1)
 			{
-				var files : Array = event.clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array;
-				var fileType : String = File(files[0]).type;
-				// check to see if the list contains a .jpg or .png file
-				if (fileType == ".png" || fileType == ".PNG")
+				var file : File = File(files_arr[0]);
+				if (!file) return;
+				
+				if (file.isDirectory)
 				{
-					NativeDragManager.acceptDragDrop(bgGFX);
-					bgGFX.addEventListener(NativeDragEvent.NATIVE_DRAG_DROP, onDragDrop);
-					invalidGFX.visible = false;
-					validGFX.visible = true;
+					var dirFiles_arr : Array = file.getDirectoryListing();
+					for (var i : int = 0; i < dirFiles_arr.length; i++) 
+					{
+						file = dirFiles_arr[i];
+						var fileType : String = file.type;
+						if (fileType == ".png" || fileType == ".PNG") 
+						{
+							jobQueue.push(file);	
+						}
+					}					
 				}
 				else
 				{
-					invalidGFX.visible = true;
-					validGFX.visible = false;
+					fileType = file.type;
+					if (fileType == ".png" || fileType == ".PNG")
+					{
+						jobQueue.push(file);
+					}
 				}
 			}
+			else
+			{
+				for (i  = 0; i < files_arr.length; i++) 
+				{
+					file = files_arr[i];
+					if (file)
+					{
+						fileType = file.type;
+						if (fileType == ".png" || fileType == ".PNG") 
+						{
+							jobQueue.push(file);	
+						}
+					}
+				}				
+			}
+			totalJobs = jobQueue.length;
+			executeAfterFrames(processJob,2);
 		}
 
-		private function onDragDrop(event : NativeDragEvent) : void
+		private function processJob() : void
 		{
-			var files : Array = event.clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array;
-			var file : File = File(files[0]);
-
-			if (file.type == ".png" || file.type == ".PNG")
+		
+			if (jobIDX < totalJobs)
 			{
-				pngFile = file;
-				clearDragBG();
+				pngFile = jobQueue[jobIDX];
 				compressAppFile();
 			}
+			else
+			{
+				log("\n\nAll done\n\nYou can drag'n'drop a new file now.");
+			}
+			jobIDX++;
 		}
-		
-		 private function readableBytes(bytes:Number):String
-        {
-            var s:Array = ['bytes', 'kb', 'MB', 'GB', 'TB', 'PB'];
-            var exp:Number = Math.floor(Math.log(bytes)/Math.log(1024));
-            return  (bytes / Math.pow(1024, Math.floor(exp))).toFixed(2) + " " + s[exp];
-        }
+
+
 
 		private function compressAppFile() : void
 		{
-			log_txt.text = "";
 			statusBusyIndicatorAnim.play();
 			statusGFX.visible 			= true;
 			dragPrompt_txt.visible 		= false;
 			origSize					= pngFile.size;
-			originalFilesize_txt.text = readableBytes(origSize);
-			log("Compressing "+pngFile.name+"\n");
+			origSize_str				= readableBytes(origSize); 
+			originalFilesize_txt.text 	= origSize_str;
+			log("\n"+(jobIDX+1).toString()+"\tCompressing "+pngFile.name+"\n");
 			
 			//min quality
 			var minQuality:int = parseInt(minQuality_txt.text);
@@ -204,7 +233,7 @@ package com.durej.pngcompressor
 			if (speed < 1) speed = 1;
 			if (speed > 10) speed = 10;
 			
-			log("\nUsing min quality: "+minQuality+", max quality: "+maxQuality+", speed:"+speed+"\n\n");
+			log("\n\tUsing min quality: "+minQuality+", max quality: "+maxQuality+", speed:"+speed+"\n");
 			
 			pngQuantProcessor.compressPNGFile(pngFile,minQuality, maxQuality,speed, onCompressionComplete);
 		}
@@ -213,20 +242,110 @@ package com.durej.pngcompressor
 		{
 			statusBusyIndicatorAnim.stop();
 			
-			statusGFX.visible 			= false;
-			finalSize					= pngFile.size;
-			compressedFilesize_txt.text = readableBytes(finalSize);
-			ratio_txt.text = (int(finalSize/origSize * 100)).toString()+"%";
+			statusGFX.visible 				= false;
+			finalSize						= pngFile.size;
+			var finalSize_str	: String 	= readableBytes(finalSize); 
+			compressedFilesize_txt.text 	= finalSize_str;
+			var ratio 			: int 		= finalSize/origSize * 100;
+			ratio_txt.text 					= ratio.toString()+"%";
 			
 			if (sucess)
 			{
-				log("Png file converted successfuly\n\nYou can drag'n'drop a new file now.");
+				log("\n\t"+pngFile.name+" : converted with ratio: "+ratio+"% | from: "+origSize_str+" to: "+finalSize_str+"\n\n");
 			}
+			else
+			{
+				log (pngFile.name+" : conversion failed!");
+			}
+			executeAfterFrames(processJob,2);
+		}
+
+
+
+		private function onFileDragEnter(event : NativeDragEvent) : void
+		{
+			if (event.clipboard.hasFormat(ClipboardFormats.FILE_LIST_FORMAT))
+			{
+				if (isValidDrop(event.clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array))
+				{
+					NativeDragManager.acceptDragDrop(this);
+					this.addEventListener(NativeDragEvent.NATIVE_DRAG_DROP, onDragDrop);
+					invalidGFX.visible = false;
+					validGFX.visible = true;					
+				
+				}else
+				{
+					invalidGFX.visible = true;
+					validGFX.visible = false;
+				}
+			}
+		}
+
+		private function isValidDrop(files_arr : Array) : Boolean
+		{
+			if (files_arr.length == 1)
+			{
+				var file : File = File(files_arr[0]);
+				if (!file) return false;
+				
+				if (file.isDirectory)
+				{
+					var dirFiles_arr : Array = file.getDirectoryListing();
+					for (var i : int = 0; i < dirFiles_arr.length; i++) 
+					{
+						file = dirFiles_arr[i];
+						var fileType : String = file.type;
+						if (fileType == ".png" || fileType == ".PNG") return true;	
+					}					
+				}
+				else
+				{
+					fileType = file.type;
+					if (fileType == ".png" || fileType == ".PNG") return true;
+				}
+			}
+			else
+			{
+				for (i  = 0; i < files_arr.length; i++) 
+				{
+					file = files_arr[i];
+					if (file)
+					{
+						fileType = file.type;
+						if (fileType == ".png" || fileType == ".PNG") return true;	
+					}
+				}				
+			}
+			return false;	
+		}
+
+		private function onDragDrop(event : NativeDragEvent) : void
+		{
+			startJob(event.clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array);
+		}
+
+		private function onFileDragExit(event : NativeDragEvent) : void
+		{
+			clearDragBG();
+		}
+
+		private function clearDragBG() : void
+		{
+			validGFX.visible = invalidGFX.visible = false;
 		}
 
 		private function log(log_str : String) : void
 		{
 			log_txt.text += log_str;
+			log_txt.scrollV = 9999;
 		}
+		
+		private function readableBytes(bytes : Number) : String
+        {
+            var s:Array = ['bytes', 'kb', 'MB', 'GB', 'TB', 'PB'];
+            var exp:Number = Math.floor(Math.log(bytes)/Math.log(1024));
+            return  (bytes / Math.pow(1024, Math.floor(exp))).toFixed(2) + " " + s[exp];
+        }
+		
 	}
 }

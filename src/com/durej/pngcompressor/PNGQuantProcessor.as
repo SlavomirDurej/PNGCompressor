@@ -50,7 +50,7 @@ package com.durej.pngcompressor
 			nativeProcessStartupInfo.workingDirectory = File.applicationDirectory;
 			processArgs = new Vector.<String>();
 
-			processArgs.push("--verbose");
+			//processArgs.push("--verbose");
 			processArgs.push("--quality="+minQuality+"-"+maxQuality);
 			processArgs.push("--speed="+speed);
 			processArgs.push("--force");
